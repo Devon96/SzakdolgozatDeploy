@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:replace="fregments/head :: head"></div>
+<body>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2DtaD-BAzib0mrxBh-Zv1a1e6S72WuCI&callback=initMap&libraries=&v=weekly"
+        defer></script>
+
+<link th:href="@{/css/saved-attractions.css}" rel="stylesheet" href="../style/saved-attractions.css" type="text/css">
+
+
+<div th:replace="fregments/header :: header"></div>
+<main>
+
+    <section>
+
+        <div class="container-lg">
+
+
+            <div class="row">
+
+
+                <div class="d-flex col-12" id="wrapper">
+
+                    <div class="bg-light border-right" id="sidebar-wrapper">
+                        <div class="sidebar-heading">Mentett helyek</div>
+                        <div id="options" class="list-group list-group-flush">
+
+                        </div>
+                    </div>
+
+                    <!-- Page Content -->
+                    <div id="page-content-wrapper">
+
+                        <nav class="navbar navbar-light bg-light border-bottom">
+                            <button class="btn btn-info" id="menu-toggle">Helyszínlista</button>
+                            <button class="btn btn-danger" id="delete-attr">X Eltávolít</button>
+                        </nav>
+
+                        <div class="container-fluid">
+                            <a id="attr-name-a"><h1 id="attraction-name" class="mt-4"></h1></a>
+
+                            <div id="map"></div>
+
+                        </div>
+                        <div id="routeInfo" class="container-fluid">
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </section>
+
+</main>
+<script th:src="@{/script/saved-attractions.js}" src="../script/saved-attractions.js"></script>
+</body>
+</html>

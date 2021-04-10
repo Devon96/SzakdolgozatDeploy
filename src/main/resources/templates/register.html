@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:replace="fregments/head :: head"></div>
+<body>
+<script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+
+</script>
+
+<link th:href="@{/css/login.css}" rel="stylesheet" href="../style/login.css" type="text/css">
+
+<div th:replace="fregments/header :: header"></div>
+<main>
+    <section>
+        <div class="container-lg">
+
+            <div class="auth-div">
+
+                <div class="container-lg">
+                    <div class="row">
+                        <!--/*@thymesVar id="user" type="com.blog.blog.model.User"*/-->
+                        <form class="loginform" th:object="${user}" th:action="@{/register}" method="post" novalidate>
+                            <div class="form-group">
+                                <div id="err" th:if="${param.error}" class="alert alert-danger">Hibás felhasználói név és jelszó</div>
+                                <label for="username">Felhasználónév</label>
+                                <input th:field="*{username}" type="text" class="form-control" id="username" name="username" placeholder="Felhasználónév">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input th:field="*{email}" type="email" class="form-control" id="email" name="email" placeholder="Emailcím">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Jelszó</label>
+                                <input th:field="*{password}" type="password" name="password" class="form-control" id="password" placeholder="Jelszó">
+                            </div>
+                            <div class="form-group">
+                                <label for="password_again">Jelszó megerősítése</label>
+                                <input type="password" class="form-control" id="password_again" placeholder="Jelszó">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Regisztráció</button>
+                        </form>
+                    </div>
+                </div>
+                <a th:href="@{oauth2/authorization/google}" class="btn btn-google btn-block" href="#"><img th:src="@{/images/google-logo.png}">Google bejelentkezés</a>
+
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

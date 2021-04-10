@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:replace="fregments/head :: head"></div>
+<body>
+
+<link th:href="@{/css/scroll.css}" rel="stylesheet" href="../style/scroll.css" type="text/css">
+<link th:href="@{/css/index.css}" rel="stylesheet" href="../style/index.css" type="text/css">
+<script th:src="@{/script/scroll.js}" src="../script/scroll.js"></script>
+
+<div th:replace="fregments/header :: header"></div>
+<main>
+    <section>
+        <div class="container-lg">
+
+            <h2 th:text="${message}">dfdsfdsfdsfds</h2>
+
+            <a href="/" class="btn btn-success btn-lg back">&#8592; Vissza a főoldalra</a>
+
+            <style>
+                h2{
+                    text-align: center;
+                    margin-top: 50px;
+                }
+                .back{
+                    display: block;
+                    width: 250px;
+                    margin: 20px auto;
+                }
+            </style>
+
+        </div>
+
+    </section>
+</main>
+</body>
+</html>

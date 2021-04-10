@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:replace="fregments/head :: head"></div>
+<body>
+<div th:replace="fregments/header :: header"></div>
+
+<link th:href="@{/css/all.css}" rel="stylesheet" href="../style/all.css" type="text/css">
+<script th:src="@{/script/all.js}" src="../script/all.js"></script>
+
+<main>
+    <section>
+        <div class="container-lg">
+            <h1 th:text="${title}"></h1>
+
+            <form class="search-form" th:action="@{/list/{site}/0 (site=${site})}" method="get">
+                <div class="row">
+                    <div class="col-12 col-lg-2"></div>
+                    <div th:class="${site == 'attractions' ? 'col-12 col-lg-10' : 'col-12'}" class="col-12 col-lg-10">
+
+                        <div class="input-group mb-3 search-form">
+                            <input th:value="${param.name}" name="name" type="text" class="form-control" placeholder="Név" aria-label="Probléma megnevezése" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-success my-btn" type="submit">Keresés</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </section>
+
+    <section>
+        <div class="container-lg margin_top">
+            <!--
+            <div th:if="${site.startsWith('attractions')}" class="float-lg-left filter">
+                <div class=" checkbox custom-switch custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="checkbox1" checked>
+                    <label class="custom-control-label" for="checkbox1">Múzeum</label>
+                </div>
+                <div class=" checkbox custom-switch custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="checkbox2" checked>
+                    <label class="custom-control-label" for="checkbox2">Kilátó</label>
+                </div>
+                <div class=" checkbox custom-switch custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="checkbox3" checked>
+                    <label class="custom-control-label" for="checkbox3">Tér</label>
+                </div>
+                <div class=" checkbox custom-switch custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="checkbox4" checked>
+                    <label class="custom-control-label" for="checkbox4">Épület</label>
+                </div>
+                <div class=" checkbox custom-switch custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="checkbox5" checked>
+                    <label class="custom-control-label" for="checkbox5">Emlékmű</label>
+                </div>
+                <br class="clear" />
+                <button type="submit" class="btn btn-dark btn-filter">Keresés</button>
+            </div>
+            -->
+            <div class="row">
+
+                <div th:if="${site == 'countries'}" th:each="country : ${page.content}" class="col-md-4 col-sm-6 col-xs-12">
+                    <a class="my-card" th:href="@{/country/{countryId} (countryId=${country.id})}" href="#">
+                        <div class="card">
+                            <img class="card-img-top" th:src="@{/photos/{countryId}/country.jpg (countryId=${country.id})}" src="../images/countries/Szingapúr/country.jpg"/>
+                            <div class="card-block">
+                                <h4 th:text="${country.name}" class="card-title">Szingapúr</h4>
+                                <p th:text="${country.continent.name}" class="card-text">Ázsia</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div th:if="${site.startsWith('cities')}" th:each="city : ${page.content}" class="col-md-4 col-sm-6 col-xs-12">
+                    <a class="my-card" th:href="@{/city/{cityId} (cityId=${city.id})}" href="#">
+                        <div class="card">
+                            <img class="card-img-top" th:src="@{/photos/{countryId}/{cityId}/city.jpg (countryId=${city.country.id}, cityId=${city.id})}" src="../images/countries/Szingapúr/country.jpg"/>
+                            <div class="card-block">
+                                <h4 th:text="${city.name}" class="card-title">Szingapúr</h4>
+                                <p th:if="${site == 'cities/all'}" th:text="${city.country.continent.name + ' - ' + city.country.name}" class="card-text">Ázsia</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div th:if="${site.startsWith('attractions')}" th:each="attraction : ${page.content}" class="col-md-4 col-sm-6 col-xs-12">
+                    <a class="my-card" th:href="@{/attraction/{attractionId} (attractionId=${attraction.id})}" href="#">
+                        <div class="card">
+                            <img class="card-img-top" th:src="@{/photos/{countryId}/{cityId}/{attractionId}/0.jpg (countryId=${attraction.city.country.id}, cityId=${attraction.city.id}, attractionId=${attraction.id})}" src="../images/countries/Szingapúr/country.jpg"/>
+                            <div class="card-block">
+                                <h4 th:text="${attraction.name}" class="card-title">Valami hely</h4>
+                                <h6 th:if="${! site.startsWith('attractions/city')}" th:text="${attraction.city.name}" class="card-text">Baja</h6>
+                                <p th:text="${attraction.type.name}" class="card-title">Szobor</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-lg">
+            <nav aria-label="navigation Page">
+                <ul class="pagination justify-content-center">
+                    <li th:class="'page-item ' + ${page.first ? 'disabled' : ''}" class="page-item"><a th:href="@{/list/{site}/0 (site=${site}, name=${param.name})}" class="page-link" href="#" aria-label="Previous">Első</a></li>
+                    <li th:if="${page.number - 2 >= 0 }" class="page-item"><a th:href="@{/list/{site}/{pageNum} (site=${site}, pageNum=${page.number - 2}, name=${param.name})}" th:text="${page.number - 1}" class="page-link" href="#">1</a></li>
+                    <li th:if="${page.number - 1 >= 0 }" class="page-item"><a th:href="@{/list/{site}/{pageNum} (site=${site}, pageNum=${page.number - 1}, name=${param.name})}" th:text="${page.number}" class="page-link" href="#">3</a></li>
+                    <li class="page-item disabled"><a  th:text="${page.number + 1}" class="page-link" href="#">4</a></li>
+                    <li th:if="${page.number + 1 < page.totalPages}" class="page-item"><a th:href="@{/list/{site}/{pageNum} (site=${site}, pageNum=${page.number + 1}, name=${param.name})}" th:text="${page.number + 2}" class="page-link" href="#">5</a></li>
+                    <li th:if="${page.number + 2 < page.totalPages}" class="page-item"><a th:href="@{/list/{site}/{pageNum} (site=${site}, pageNum=${page.number + 2}, name=${param.name})}" th:text="${page.number + 3}" class="page-link" href="#">8</a></li>
+                    <li th:class="'page-item ' + ${page.last ? 'disabled' : ''}" class="page-item"><a th:href="@{/list/{site}/{pageNum} (site=${site}, pageNum=${page.totalPages - 1}, name=${param.name})}" class="page-link" href="#" aria-label="Next">Utolsó</a></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</main>
+</body>
+</html>

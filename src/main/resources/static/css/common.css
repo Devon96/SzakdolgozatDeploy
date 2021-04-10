@@ -1,0 +1,32 @@
+body{
+    font-family: "Comic Sans", "Comic Sans MS", cursive, sans-serif;
+    margin-bottom: 40px;
+}
+.logo{
+    height: 40px;
+}
+.nav-item:hover{
+    border: #aaa 1px solid;
+    border-radius: 10px;
+    margin: -1px;
+}
+.nav-item{
+    font-weight: bold;
+}
+.margin_top{
+    padding-top: 50px;
+}
+br.clear {
+    clear: both;
+}
+.dropdown-item:hover{
+    background-color: #1e8eff;
+}
+.dropdown-item{
+    font-weight: bold;
+    color: #999999;
+}
+.nav-link{
+    font-weight: bold;
+    color: #999999;
+}

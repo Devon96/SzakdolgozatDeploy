@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<div th:replace="fregments/head :: head"></div>
+<body>
+
+<div th:replace="fregments/header :: header"></div>
+<main>
+    <section>
+        <div class="container">
+            <div class="row justify-content-center margin_top align-items-center">
+                <div class="col-11 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <!--/*@thymesVar id="user" type="com.bejelento.bejelento.model.User"*/-->
+                            <form th:object="${user}" th:action="@{/user/edit}" action="/users/edit" method="post" >
+                                <div class="form-group">
+                                    <input th:field="*{username}" minlength="3" type="text" class="form-control" placeholder="Név" name="username" required>
+                                </div>
+                                <div class="form-group">
+                                    <input th:field="*{email}" type="email" class="form-control" placeholder="Email (opcionális)" name="email">
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input onchange="hiddenPassword()" class="form-check-input" type="checkbox" value="" id="pwrd-check">
+                                        <label class="form-check-label" for="pwrd-check">
+                                            Új jelszó
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div id="password-div" style="display: none;">
+
+                                    <div class="form-group">
+                                        <input th:field="*{password}" type="password" minlength="4" id="password" class="form-control" placeholder="Új jelszó" name="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="Új jelszó ismét" name="password-again" id="confirm_password" >
+                                    </div>
+
+                                </div>
+
+                                <button type="submit" id="sendlogin" class="btn btn-block btn-primary">Módosítás</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script th:src="@{/script/editUser.js}" src="../script/editUser.js"></script>
+</main>
+</body>
+</html>

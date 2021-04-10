@@ -1,0 +1,81 @@
+.form-group{
+    width: 100%;
+}
+form{
+    font-family: "Arial", "Corbel", "Normal", serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+textarea{
+    min-height: 150px;
+}
+
+.image-upload{
+    height: 500px;
+
+}
+img.image{
+    width: 100%;
+    height: 300px;
+
+    background-position: center center;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: cover;
+    object-fit: cover;
+}
+
+.imagePreview {
+    width: 100%;
+    height: 180px;
+    background-position: center center;
+    background-color: #dddddd;
+    background-size: cover;
+    background-repeat:no-repeat;
+    display: inline-block;
+    box-shadow:0 -3px 6px 2px rgba(0,0,0,0.2);
+}
+.addImage
+{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background-color:#4bd7ef;
+    color:#fff;
+    box-shadow:0 0 2px 1px rgba(0,0,0,0.2);
+    text-align:center;
+    line-height:30px;
+    margin-top:0;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.imgUp
+{
+    margin-bottom:15px;
+}
+.removeImage
+{
+    position:absolute;
+    top:0;
+    right:15px;
+    width:30px;
+    height:30px;
+    text-align:center;
+    line-height:30px;
+    background-color:rgba(255,255,255,0.6);
+    cursor:pointer;
+}
+.btn-primary
+{
+    display:block;
+    border-radius:0;
+    box-shadow:0 4px 6px 2px rgba(0,0,0,0.2);
+    margin-top:-5px;
+}
+
+@media (min-width: 768px){
+    .newtype{
+        margin-top: 35px;
+    }
+}

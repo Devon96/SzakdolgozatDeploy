@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:replace="fregments/head :: head"></div>
+
+<body>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2DtaD-BAzib0mrxBh-Zv1a1e6S72WuCI&callback=beforeInitMap&libraries=places&v=weekly"
+        defer
+></script>
+
+<link th:href="@{/css/scroll.css}" rel="stylesheet" href="../style/scroll.css" type="text/css">
+<link th:href="@{/css/locale.css}" rel="stylesheet" href="../style/locale.css" type="text/css">
+<link th:href="@{/css/attraction.css}" rel="stylesheet" href="../style/attraction.css" type="text/css">
+<script th:src="@{/script/scroll.js}" src="../script/scroll.js"></script>
+
+
+<div th:replace="fregments/header :: header"></div>
+
+<main>
+    <section>
+        <div class="container-lg">
+
+            <div sec:authorize="hasAuthority('ADMIN')" class="row margin_top admin-functions-div">
+
+                <div class="container-lg">
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#exampleModalCenter">
+                        Törlés
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal my-modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">TÖRLÉS</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Biztos törlöd az adatbátisból ezt a helyszínt?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Mégse</button>
+                                    <a th:href="@{/attraction/delete/{attractionId} (attractionId = ${attraction.id})}" class="btn btn-danger">IGEN</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <a th:href="@{/attraction/edit (attractionId=${attraction.id})}" type="button" class="btn btn-info ">Szerkeztés</a>
+
+                </div>
+
+            </div>
+
+            <div th:class="'row '+${#authorization.expr('hasAuthority(''ADMIN'')') ? '' : 'margin_top'}" class="row">
+                <div class="col-md-5 locale_img_div">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li th:each="image,iter : ${imagelist}" data-target="#carouselExampleIndicators" data-slide-to="0" th:data-slide-to="${iter.index}" th:class="${iter.index == 0}? 'active' : '' " class="active"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div th:each="image,iter : ${imagelist}" th:class="${iter.index == 0}? 'carousel-item active' : 'carousel-item' " >
+                                <img class="attraction-img" th:src="@{/photos/{countryId}/{cityId}/{attractionId}/{imagename} (countryId=${attraction.city.country.id}, cityId=${attraction.city.id}, attractionId=${attraction.id}, imagename=${image})}" src="../images/countries/Egyesült%20Királyság/1/1/1.jpg" alt="First slide">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-7 locale_info">
+                    <h1 id="attraction-name" th:text="${attraction.name}">British Museum</h1>
+                    <p th:text="${attraction.description}" class="description">
+                        A londoni British Museum egyike a világ legnagyobb, az emberi történelemmel és kultúrával foglalkozó múzeumainak.
+                        Gyűjteményei – melyek több mint 13 millió tárgyból állnak – a kezdetektől a jelenkorig mutatják be az emberi
+                        kultúra történetét.
+                    </p>
+
+                    <div th:if="${ attractionSaved || !#authorization.expr('isAuthenticated()')}" class="btndiv">
+                        <a th:href="@{/attraction/add-to-user/{attractionId} (attractionId=${attraction.id})}" type="button" class="add-attraction-btn btn btn-success fixed-bottom position-absolute">Érdekel</a>
+                    </div>
+
+                    <div th:if="${!attractionSaved && #authorization.expr('isAuthenticated()')}" class="btndiv">
+                        <a th:href="@{/attraction/remove-from-user/{attractionId} (attractionId=${attraction.id})}" type="button" class="add-attraction-btn btn btn-red-color fixed-bottom position-absolute">Nem érdekel</a>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="row margin_top">
+
+                <div class="col-sm-5">
+                    <div id="opening" class="card card-body opening">
+                        <h4>Nyitvatartás</h4>
+                        <table id="opening_hours">
+                        </table>
+
+                        <h2 id="open-now"></h2>
+                    </div>
+
+                    <div class="container-lg erteleles">
+                        <div class="row container-fluid">
+                            <h3 class="d-inline">Értékeld:</h3>
+                        </div>
+                        <div class="row container-fluid">
+                            <h4><span class="rat-n">1</span><span class="rat-n">2</span><span class="rat-n">3</span><span class="rat-n">4</span><span class="rat-n">5</span></h4>
+                        </div>
+                        <div class="row">
+
+                            <div class="container-fluid">
+                                <input th:checked="${(rating != null && rating.rating == 1)}" onclick="addRating(1)" type="radio" class="radio radio-button" name="test" id=i1 >
+                                <input th:checked="${(rating != null && rating.rating == 2)}" onclick="addRating(2)" type="radio" class="radio radio-button" name="test" id=i2>
+                                <input th:checked="${(rating != null && rating.rating == 3)}" onclick="addRating(3)" type="radio" class="radio radio-button" name="test" id=i3>
+                                <input th:checked="${(rating != null && rating.rating == 4)}" onclick="addRating(4)" type="radio" class="radio radio-button" name="test" id=i4>
+                                <input th:checked="${(rating != null && rating.rating == 5)}" onclick="addRating(5)" type="radio" class="radio radio-button" name="test" id=i5>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid" id="ratings">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th id="rating-avg" colspan="2"> 4.5 </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Szörnyű</td>
+                                        <td class="rating-td" id="ratings1">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gyenge</td>
+                                        <td class="rating-td" id="ratings2">5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Közepes</td>
+                                        <td class="rating-td" id="ratings3">6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jó</td>
+                                        <td class="rating-td" id="ratings4">24</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kiváló</td>
+                                        <td class="rating-td" id="ratings5">11</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="col-sm-7">
+                    <hr />
+                    <h6>Ajánlott látogatási idő:</h6>
+                    <h5 th:text="${attraction.visitTime} + ' óra'"> 7 óra</h5>
+                    <hr />
+                    <h6>Cím:</h6>
+                    <h5 th:text="${attraction.address}">Great Russell St.</h5>
+                    <h5 id="city-name" th:text="${attraction.city.name}">London</h5>
+                    <hr />
+                    <h5 th:if="${attraction.website != ''}"><a th:href="@{https://www.{website} (website=${attraction.website})}" href="https://www.britishmuseum.org/">Webhely</a></h5>
+
+                    <a class="resp-sharing-button__link " href="https://facebook.com/sharer/sharer.php?u=localhost:8088/attraction/14" target="_blank" rel="noopener" aria-label="Facebook">
+                        <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg></div>Facebook</div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-lg">
+            <div class="row">
+                <div id="map" class="w-100">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+
+        <div class="container-lg">
+            <h1 class="margin_top">Hasonló látnivalók</h1>
+            <div class="row">
+                <div class="container-lg relative">
+                    <div class="top_attractions attractions arrow_div arrowLeft arrowLeft_scrollfield_top_attractions">
+                        <img class="arrow" src="../images/scrollLeft.png"/>
+                    </div>
+                    <div class="top_attractions arrow_div arrowRight arrowRight_scrollfield_top_attractions">
+                        <img class="arrow" src="../images/scrollRight.png"/>
+                    </div>
+                </div>
+                <div class="scrollfield_top_attractions scrollfield">
+
+
+                    <a th:each="a : ${attraction.similarAttractions}" th:href="@{/attraction/{attractionId}(attractionId=${a.id})}" href="#">
+                        <div class="card">
+                            <img class="card-img-top" th:src="@{/photos/{countryId}/{cityId}/{attractionId}/0.jpg (countryId=${a.city.country.id}, cityId=${a.city.id}, attractionId=${a.id})}" />
+                            <div class="card-block">
+                                <h4 th:text="${a.name}" class="card-title">British Museum</h4>
+                                <p th:text="${a.city.name}" class="card-text">London</p>
+                            </div>
+                        </div>
+                    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section sec:authorize="hasAuthority('USER')">
+        <div class="container-lg">
+            <div class="row">
+                <div class="form-group w-100">
+
+                    <!--/*@thymesVar id="comment" type="hu.utazo.utazo.model.Comment"*/-->
+                    <form th:action="@{/attraction/comment/add/{attractionId} (attractionId = ${attraction.id})}" method="post" th:object="${comment}">
+                        <label class="control-label">Írd meg a véleményedet</label>
+                        <textarea th:field="*{text}" required class="form-control"></textarea>
+                        <button type="submit" class="btn btn-primary btn-my-primary float-right">Közzététel</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-lg margin_top">
+
+            <div th:each="c : ${attraction.comments}" class="container-lg comment">
+                <div class="row">
+                    <div class="col-10"><h4 th:text="${c.user.username}" class="username">KikiTheKillerCat</h4></div>
+                    <div class="col-2">
+                        <a th:href="@{/attraction/comment/delete/{attractionId}/{commentId} (attractionId = ${attraction.id} ,commentId = ${c.id})}" class="btn btn-danger btn-my-danger" th:if="${#authorization.expression('hasAuthority(''ADMIN'')') or #authentication.name.equals(c.user.username)}">Törlés</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12"><h6 th:text="${#dates.format(c.datetime, 'yyyy-MM-dd HH:mm')}" class="date">2020-09-21 12-15</h6></div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p th:text="${c.text}">
+                            Talán egy hosszú élet elég lenne a múzeum részletes megismeréséhez. Mindenkinek
+                            azt javaslom válasszon ki egy különösen kedves korszakot vagy témát és így is hosszú
+                            és tartalmas órákat fog eltölteni. A mérhetetlenül gazdag kulturális élmény mint London minden állami múzeuma ingyenes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+<p id="country-name" th:text="${attraction.city.country.name}"></p>
+<a id="url" th:href="@{/api/add-rating/{attractionId} (attractionId = ${attraction.id})}" style="display: none;"></a>
+<a id="url-to-get-ratings" th:href="@{/api/get-ratings/{attractionId} (attractionId = ${attraction.id})}" style="display: none;"></a>
+
+<script th:src="@{/script/attraction.js}" src="../script/attraction.js"></script>
+</body>
+</html>

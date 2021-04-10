@@ -1,0 +1,82 @@
+
+.card-block{
+    padding: 5px;
+    height: 100%;
+    min-height: 70px;
+}
+.card-img-top{
+    height: 150px;
+    width: 300px;
+
+    background-position: center center;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: cover;
+    object-fit: cover;
+
+}
+.card {
+    margin: 10px 4px;
+}
+h4{
+    white-space: normal;
+}
+.card:hover {
+    transform: scale(1.06);
+}
+
+.scrollfield {
+    overflow: auto;
+    white-space: nowrap;
+    position: relative;
+    display: flex;
+}
+
+.scrollfield::-webkit-scrollbar {
+    width: 50px;
+    height: 10px;
+}
+div.scrollfield .card {
+    display: inline-block;
+}
+
+.arrowLeft{
+    position: absolute;
+    z-index: 1;
+    height: 120px;
+    left: 0;
+}
+
+.arrowRight{
+    position: absolute;
+    z-index: 1;
+    height: 120px;
+    right: 0;
+}
+
+img.arrow{
+    height: 60px;
+    width: 60px;
+    margin: 30px 0;
+}
+
+.relative{
+    position: relative;
+}
+
+.arrow_div{
+    margin-top: 30px;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.arrow_div:hover{
+    background-color: rgba(0, 0, 0, 0.50);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-x: hidden;
+}
+

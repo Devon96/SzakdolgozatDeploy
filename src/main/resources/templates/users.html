@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<div th:replace="fregments/head :: head"></div>
+<body>
+<link th:href="@{/css/users.css}" rel="stylesheet" href="../../static/css/users.css" type="text/css">
+
+<div th:replace="fregments/header :: header"></div>
+<main>
+    <section>
+        <div class="container-lg padding-top ">
+            <form method="get" th:action="@{/users/list/0}">
+                <div class="row margin_top">
+                    <div class="col-12">
+
+                        <div class="input-group mb-3">
+                            <input th:value="${param.search}" name="search" type="text" class="form-control" placeholder="felhasználónév/emailcím" aria-label="felhasználónév/emailcím">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-success my-btn" type="submit">Keresés</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section>
+        <div class="container-lg margin_top">
+
+
+            <div class="row user padding-top">
+                <div class="col-6 col-lg-3"> Megnevezés: </div>
+                <div class="col-6 col-lg-3"> Felhasználók számára: </div>
+                <div class="col-6 col-lg-3"> Aktiválás: </div>
+                <div class="col-6 col-lg-3"> Admin jog: </div>
+            </div>
+            <hr>
+            <!--/*@thymesVar id="user" type="hu.utazo.utazo.model.User"*/-->
+
+            <div class="users">
+
+                <div th:each="user : ${users.content}" class="row user">
+                    <div th:text="${user.username}" class="col-6 col-lg-3 user-data">Alma felhasználó</div>
+                    <div th:text="${user.email}" class="col-6 col-lg-3 user-data">alma@almail.com</div>
+                    <div class="col-6 col-lg-3"> <span><a th:class="'btn btn-sm my-btn ' + ${user.enabled ? 'btn-danger' : 'btn-primary'}" th:text="${user.enabled ? 'Tiltás' : 'Engedélyezés'}" th:href="@{/users/ban/{pageNumber}(pageNumber=${users.number} ,userId=${user.id}, search=${param.search})}" href="#"> Tiltás </a> </span> </div>
+                    <div class="col-6 col-lg-3"> <span><a th:class="'btn btn-sm my-btn ' + ${user.isAdmin() ? 'btn-danger' : 'btn-success'}" th:text="${user.isAdmin() ? 'Elvesz' : 'Ad'}" th:href="@{/users/admin-add-remove/{pageNumber}(pageNumber=${users.number} ,userId=${user.id}, search=${param.search})}" href="#"> ad </a> </span> </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section>
+        <div class="container-lg margin_top">
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li th:class="'page-item ' + ${ users.first ? 'disabled' : '' } "> <a th:href="@{/users/list/{pageNumber} (pageNumber = ${users.number - 1}, search = ${param.search})}" class="page-link" tabindex="-1">Előző</a></li>
+                    <li th:class="'page-item ' + ${ users.last ? 'disabled' : '' } "> <a th:href="@{/users/list/{pageNumber} (pageNumber = ${users.number + 1}, search = ${param.search})}" class="page-link">Következő</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </section>
+
+</main>
+</body>
+</html>

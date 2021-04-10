@@ -1,0 +1,22 @@
+.my-btn{
+    font-family: "Arial", "Corbel", "Normal", serif;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    width: 120px;
+    color: #ffffff;
+}
+
+.user{
+    font-family: "Arial", "Corbel", "Normal", serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.user-data{
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.users > :nth-child(odd) {
+    background-color: #bbbbbb;
+}

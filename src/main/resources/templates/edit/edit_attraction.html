@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<div th:replace="fregments/head :: head"></div>
+<body>
+<link th:href="@{/css/uploads.css}" rel="stylesheet" href="../../static/css/uploads.css" type="text/css">
+<link th:href="@{/css/attraction-upload.css}" rel="stylesheet" href="../../static/css/uploads.css" type="text/css">
+<link th:href="@{/semantic-ui/semantic.css}" rel="stylesheet" href="semantic-ui/semantic.min.css" type="text/css">
+
+
+<div th:replace="fregments/header :: header"></div>
+<main>
+    <section>
+        <div class="container-lg search">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10 margin_top">
+                    <!--/*@thymesVar id="country" type="hu.utazo.utazo.model.Country"*/-->
+                    <!--/*@thymesVar id="city" type="hu.utazo.utazo.model.City"*/-->
+                    <!--/*@thymesVar id="attraction" type="hu.utazo.utazo.model.Attraction"*/-->
+                    <form th:action="@{/attraction/edit}" enctype="multipart/form-data" th:method="post" th:object="${attraction}">
+
+                        <div class="row">
+
+                            <div class="form-group col-md-6 col-xl-4">
+                                <label for="country">Ország</label>
+                                <select th:field="*{city.country.id}" onchange="updateCities()" class="form-control" id="country" required>
+                                    <!--/*@thymesVar id="countries" type="hu.utazo.utazo.model.Country"*/-->
+                                    <option th:each="country: ${countries}" th:value="${country.id}" th:text="${country.name}" >Hollandia</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6 col-xl-4">
+                                <label for="city">Város</label>
+                                <select th:field="*{city.id}" class="form-control" id="city" required>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6 col-xl-4">
+                                <label for="visit_time">Ajánlott látogatási idő</label>
+                                <input th:field="*{visitTime}" class="form-control" min="0" max="48" type="number" value="1" id="visit_time">
+                            </div>
+
+                            <div class="form-group col-md-6 col-xl-4">
+                                <label for="name">Név:</label>
+                                <input th:field="*{name}" min="3" type="text" class="form-control" id="name" placeholder="A hely megnevezése" required>
+                            </div>
+
+                            <div class="form-group col-md-6 col-xl-4">
+                                <label for="address">Cím:</label>
+                                <input th:field="*{address}" type="text" class="form-control" id="address" placeholder="Utca/Tér/Út hézszám">
+                            </div>
+
+                            <div class="form-group col-md-6 col-xl-4">
+                                <label for="website">Webhely:</label>
+                                <input th:field="*{website}" type="text" class="form-control" id="website" placeholder="példa.com">
+                            </div>
+
+                            <div class="form-group col-md-6 col-xl-4" id="categories">
+                                <label for="categoryTextField">Kategória:</label>
+                                <select th:field="*{type}" class="form-control" id="categoryTextField" required>
+                                    <option th:each="i : ${types}" th:value="${i.id}" th:text="${i.name}" value="Művészet" >Művészet</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group col-md-6 col-xl-4" id="newCategoryInput">
+                                <label for="categoryTextField">Kategória:</label>
+                                <input th:field="*{type.newType}" type="text" placeholder="Kategória megnevezése:" class="form-control" id="category">
+                            </div>
+
+
+                            <div class="form-group checkbox col-md-6 col-xl-4 newtype">
+                                <label><input type="checkbox" id="newCategory" onclick="myFunction()">Új kategória</label>
+                            </div>
+
+                            <!--/*@thymesVar id="label" type="hu.utazo.utazo.model.Label"*/-->
+                            <div class="form-group col-12">
+                                <label class="" for="solution-type">Címkék</label>
+                                <select th:field="*{labelStrList}" name="tags" class="mini ui fluid multiple search selection dropdown" id="solution-type" required>
+                                    <option value="">Cimkék</option>
+                                    <option th:each="label: ${labels}" th:value="${label.id}" th:text="${label.name}" >a</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="control-label">Leírása</label>
+                            <textarea th:field="*{description}" id="description" class="form-control" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary float-right"> Szerkeztés </button>
+
+                        <br>
+                        <input th:field="*{id}" style="display: none;" />
+                    </form>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </section>
+</main>
+<script th:src="@{/script/uploads.js}" src="../../static/script/uploads.js"></script>
+<script th:src="@{/semantic-ui/semantic.min.js}" src="Semantic-UI/semantic.min.js"></script>
+<script th:inline="javascript">
+    var attraction = /*[[${attraction}]]*/ 'error';
+</script>
+<script th:src="@{/script/attraction-edit.js}" src="attraction-edit.js">
+</script>
+
+
+</body>
+</html>

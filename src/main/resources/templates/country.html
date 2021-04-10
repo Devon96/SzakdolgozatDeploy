@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:replace="fregments/head :: head"></div>
+<body>
+
+<link th:href="@{/css/scroll.css}" rel="stylesheet" href="../style/scroll.css" type="text/css">
+<link th:href="@{/css/locale.css}" rel="stylesheet" href="../style/locale.css" type="text/css">
+<script th:src="@{/script/scroll.js}" src="../script/scroll.js"></script>
+
+<div th:replace="fregments/header :: header"></div>
+<main>
+    <section>
+        <div class="container-lg search">
+            <div class="row margin_top">
+                <div class="col-md-5 locale_img_div">
+                    <img class="locale_img" th:src="@{/photos/{id}/country.jpg(id=${country.id})}" src="../images/countries/Egyesült%20Királyság/country.jpg" />
+                </div>
+                <div class="col-md-7 locale_info">
+                    <h1 th:text="${country.name}">Egyesült Királyság</h1>
+                    <p th:text="${country.description}">
+                        Fedezzen fel egy lenyűgöző látképekkel, mesébe illő kastélyokkal és nyüzsgő modern
+                        városokkal teli országot, amely felejthetetlen élmények sorát kínálja az ide
+                        látogatóknak. A híres Szent Pál-székesegyház tetején London látványában gyönyörködhet,
+                        megízlelheti a Skót-felföld legjobb házasítatlan malátawhiskyjét, Banksy nyomában bejárhatja Bristolt,
+                        Liverpoolban a zenei élet legendáinak nyomdokaiban járhat, vagy akár a Wales szívében található Cardiff
+                        kastély történetét is megismerheti. Nagy-Britanniában biztosan megtalálja az Önnek legtökéletesebb
+                        elfoglaltságot.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+
+
+        <div class="container-lg">
+            <h1 class="margin_top">Felkapott városok</h1>
+            <a th:href="@{/list/cities/{countryId}/0 (countryId=${country.id}) }" href="all.html"><h5 >Összes-></h5></a>
+            <div class="row">
+                <div class="container-lg relative">
+                    <div class="cities arrow_div arrowLeft arrowLeft_scrollfield_cities">
+                        <img class="arrow" th:src="@{/images/scrollLeft.png}" src="../images/scrollLeft.png"/>
+                    </div>
+                    <div class="cities arrow_div arrowRight arrowRight_scrollfield_cities">
+                        <img class="arrow" th:src="@{/images/scrollRight.png}" src="../images/scrollRight.png"/>
+                    </div>
+                </div>
+                <div class="scrollfield_cities scrollfield">
+                    <a th:each="city : ${country.cities}" th:href="@{/city/{cityId} (cityId=${city.id})}"  href="city.html">
+                        <div class="card">
+                            <img class="card-img-top" th:src="@{/photos/{countryId}/{cityId}/city.jpg (countryId=${country.id}, cityId=${city.id})}" src="../images/countries/Egyesült%20Királyság/1/city.jpg" />
+                            <div class="card-block ">
+                                <h4 class="card-title" th:text="${city.name}">London</h4>
+                            </div>
+                        </div>
+                    </a>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container-lg">
+            <h1 class="margin_top">TOP látnivalók</h1>
+            <a th:href="@{/list/attractions/{countryId}/0 (countryId=${country.id})}" href="all.html"><h5 >Összes-></h5></a>
+            <div class="row">
+                <div class="container-lg relative">
+                    <div class="top_attractions attractions arrow_div arrowLeft arrowLeft_scrollfield_top_attractions">
+                        <img class="arrow" th:src="@{/images/scrollLeft.png}" src="../images/scrollLeft.png"/>
+                    </div>
+                    <div class="top_attractions arrow_div arrowRight arrowRight_scrollfield_top_attractions">
+                        <img class="arrow" th:src="@{/images/scrollRight.png}" src="../images/scrollRight.png"/>
+                    </div>
+                </div>
+                <div class="scrollfield_top_attractions scrollfield">
+                    <a th:each="attraction : ${country.topAttractions}" th:href="@{/attraction/{attractionId} (attractionId=${attraction.id})}" href="attraction.html">
+                        <div class="card">
+                            <img class="card-img-top" th:src="@{/photos/{countryId}/{cityId}/{attractionId}/0.jpg (countryId=${country.id}, cityId=${attraction.city.id}, attractionId=${attraction.id})}" src="../images/countries/Egyesült%20Királyság/1/1/1.jpg" />
+                            <div class="card-block">
+                                <h4 th:text="${attraction.name}" class="card-title">British Museum</h4>
+                                <p th:text="${attraction.city.name}" class="card-text">London</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div th:if="${ country.suggestAttractions != null }" class="container-lg">
+            <h1 class="margin_top">Javasolt látnivalók</h1>
+            <a th:href="@{/list/attractions/proposal/{countryId}/0 (countryId=${country.id})}" href="all.html"><h5 >Összes-></h5></a>
+            <div class="row">
+                <div class="container-lg relative">
+                    <div class="suggest_attractions arrow_div arrowLeft arrowLeft_scrollfield_suggest_attractions">
+                        <img class="arrow" th:src="@{/images/scrollLeft.png}" src="../images/scrollLeft.png"/>
+                    </div>
+                    <div class="suggest_attractions arrow_div arrowRight arrowRight_scrollfield_suggest_attractions">
+                        <img class="arrow" th:src="@{/images/scrollRight.png}" src="../images/scrollRight.png"/>
+                    </div>
+                </div>
+                <div class="scrollfield_suggest_attractions scrollfield">
+
+                    <a th:each="attraction : ${country.suggestAttractions}" th:href="@{/attraction/{attractionId} (attractionId=${attraction.id})}" href="attraction.html">
+                        <div class="card">
+                            <img class="card-img-top" th:src="@{/photos/{countryId}/{cityId}/{attractionId}/0.jpg (countryId=${country.id}, cityId=${attraction.city.id}, attractionId=${attraction.id})}" src="../images/countries/Egyesült%20Királyság/1/1/1.jpg" />
+                            <div class="card-block">
+                                <h4 th:text="${attraction.name}" class="card-title">British Museum</h4>
+                                <p th:text="${attraction.city.name}" class="card-text">London</p>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>

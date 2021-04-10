@@ -18,7 +18,7 @@ import java.util.Random;
 
 @Service
 public class MyOidcUserService extends OidcUserService {
-/*
+
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private AuthoritiesRepository authoritiesRepository;
@@ -29,7 +29,7 @@ public class MyOidcUserService extends OidcUserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authoritiesRepository = authoritiesRepository;
-    }*/
+    }
 
     @SneakyThrows
     @Override

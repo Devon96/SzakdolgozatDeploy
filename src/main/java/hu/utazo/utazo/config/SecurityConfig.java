@@ -31,14 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
     private MyOidcUserService myOidcUserService;
 
     UserRepository userRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository){
+    public void setUserRepository(UserRepository userRepository, MyOidcUserService myOidcUserService){
         this.userRepository = userRepository;
+        this.myOidcUserService = myOidcUserService;
     }
 
     @Override

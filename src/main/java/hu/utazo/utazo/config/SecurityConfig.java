@@ -17,14 +17,11 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Configuration
@@ -57,9 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //.and()
-                //.authorizeRequests().antMatchers("/h2-console/**").permitAll()
-
                 .antMatchers(
                         "/attraction/comment/delete/**/**",
                         "/attraction/delete/**",
@@ -118,9 +112,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/city",
                         "/api/get-ratings/**",
                         "/api/get-cities-and-countries-by-name/**").permitAll()
-
-                //.anyRequest()
-                //.authenticated()
                 .and()
                 .logout().permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

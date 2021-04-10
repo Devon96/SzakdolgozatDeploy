@@ -20,14 +20,14 @@ import java.util.Random;
 public class MyOidcUserService extends OidcUserService {
 
     private UserRepository userRepository;
-    //private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     private AuthoritiesRepository authoritiesRepository;
 
 
     @Autowired
-    public MyOidcUserService(UserRepository userRepository/*, PasswordEncoder passwordEncoder*/, AuthoritiesRepository authoritiesRepository) {
+    public MyOidcUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthoritiesRepository authoritiesRepository) {
         this.userRepository = userRepository;
-        //this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.authoritiesRepository = authoritiesRepository;
     }
 
@@ -44,7 +44,7 @@ public class MyOidcUserService extends OidcUserService {
     }
 
     private OidcUser processOidcUser(OidcUserRequest userRequest, OidcUser oidcUser) throws Exception {
-        /*User newUser = new User(oidcUser.getAttributes());
+        User newUser = new User(oidcUser.getAttributes());
         User user = userRepository.findByEmail(newUser.getEmail()).orElse(null);
         if(user == null){
             user = userRepository.findByEmail(oidcUser.getName()).orElse(null);
@@ -76,7 +76,6 @@ public class MyOidcUserService extends OidcUserService {
             throw new Exception("Ez a felhasználó le van tiltva");
         }
 
-*/
         return oidcUser;
     }
 

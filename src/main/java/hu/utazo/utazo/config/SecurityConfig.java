@@ -30,15 +30,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
-
+    private PasswordEncoder passwordEncoder;
     private MyOidcUserService myOidcUserService;
 
     UserRepository userRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository, MyOidcUserService myOidcUserService){
+    public void setUserRepository(UserRepository userRepository, MyOidcUserService myOidcUserService, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.myOidcUserService = myOidcUserService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery("SELECT Email, Name FROM AUTHORITIES, USERS, USERS_ROLES WHERE USERS_ROLES.USERS_USERNAME = USERS.ID AND AUTHORITIES.ID = USERS_ROLES.ROLES_ID AND USERS.Email = ?")
                 .usersByUsernameQuery("SELECT Email, Password, Enabled FROM USERS WHERE USERS.Email = ?")
                 .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
@@ -155,10 +156,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new Pbkdf2PasswordEncoder();
-    }
+
 
 
 }

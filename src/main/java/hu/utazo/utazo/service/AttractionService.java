@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.expression.ExpressionException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Attr;
 
@@ -42,12 +44,10 @@ public class AttractionService {
     public void save(Attraction attraction, MultipartFile[] attractionImages) throws Exception {
 
         //ellenőrzöm hogy már az adatbázisban van e
-
         Attraction temp = attractionRepository.findByNameAndCity(attraction.getName(), attraction.getCity()).orElse(null);
         if(temp != null){
             throw new Exception("A hely már létezik");
         }
-
         //típus mentése
         if(attraction.getType().getId() == 0){
             Type t = typeRepository.findByNameIgnoreCase(attraction.getType().getName()).orElse(null);
@@ -55,6 +55,9 @@ public class AttractionService {
                 t = typeRepository.save(attraction.getType());
             }
             attraction.setType(t);
+        }else{
+            String typeName = typeRepository.findNameById(attraction.getType().getId()).orElseThrow(()-> new ExpressionException("Nemlétező típusra hivatkozás"));
+            attraction.getType().setName(typeName);
         }
 
         //label adatbázishoz adása ha az nem szerepel benne

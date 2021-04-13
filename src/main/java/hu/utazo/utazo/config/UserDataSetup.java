@@ -2,8 +2,10 @@ package hu.utazo.utazo.config;
 
 import hu.utazo.utazo.model.Authorities;
 import hu.utazo.utazo.model.Continent;
+import hu.utazo.utazo.model.Type;
 import hu.utazo.utazo.model.User;
 import hu.utazo.utazo.repository.ContinentRepository;
+import hu.utazo.utazo.repository.TypeRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class UserDataSetup implements ApplicationListener<ContextRefreshedEvent> {
@@ -39,7 +42,6 @@ public class UserDataSetup implements ApplicationListener<ContextRefreshedEvent>
         if(alredySetup){
             return;
         }
-
 
         createRoleIfNotExist("ADMIN");
         createRoleIfNotExist("USER");

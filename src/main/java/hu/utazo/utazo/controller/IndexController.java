@@ -7,6 +7,7 @@ import hu.utazo.utazo.service.AttractionService;
 import hu.utazo.utazo.service.CityService;
 import hu.utazo.utazo.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -18,6 +18,10 @@ public class MyErrorHandlerController implements ErrorController {
         if(request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI).equals("/oauth_login")){
             return "redirect:/login?error";
         }
+        System.out.println(RequestDispatcher.ERROR_REQUEST_URI);
+        System.out.println(RequestDispatcher.ERROR_REQUEST_URI);
+        System.out.println(RequestDispatcher.ERROR_REQUEST_URI);
+        System.out.println(RequestDispatcher.ERROR_REQUEST_URI);
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
             if(statusCode == HttpStatus.NOT_FOUND.value()) {

@@ -30,8 +30,7 @@ public class Label {
 
     @Override
     public String toString(){
-
-        return "id: " + this.id;
+        return "id: " + this.id + "  :  " + this.name;
     }
 
     @PreUpdate

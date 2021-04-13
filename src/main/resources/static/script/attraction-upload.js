@@ -35,7 +35,7 @@ function myFunction() {
     if (checkBox.checked === true){
         newCategoryInput.style.display = "block";
         categories.style.display = "none";
-        categoryTextField.value = "";
+        categoryTextField.value = "aaaaaa";
         categoryTextField.required = false;
         categori.required = true;
 

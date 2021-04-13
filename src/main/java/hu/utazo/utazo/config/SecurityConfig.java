@@ -6,7 +6,6 @@ import hu.utazo.utazo.model.User;
 import hu.utazo.utazo.repository.UserRepository;
 import hu.utazo.utazo.service.MyOidcUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -30,15 +28,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
-    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private MyOidcUserService myOidcUserService;
 
     UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository, MyOidcUserService myOidcUserService, PasswordEncoder passwordEncoder){
+    public void setUserRepository(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
-        this.myOidcUserService = myOidcUserService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -155,8 +154,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             return mappedAuthorities;
         };
     }
-
-
 
 
 }

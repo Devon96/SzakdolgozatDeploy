@@ -17,6 +17,10 @@ public class TypeService {
         this.typeRepository = typeRepository;
     }
 
+    public void add(Type type){
+        typeRepository.save(type);
+    }
+
     public List<Type> findAll(){
         return typeRepository.findAll();
     }

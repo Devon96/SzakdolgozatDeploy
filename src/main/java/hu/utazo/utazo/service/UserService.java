@@ -38,6 +38,9 @@ public class UserService {
     @Value("${server.port}")
     private int PORT;
 
+    @Value("${serverurl}")
+    private String URL;
+
     @Autowired
     public UserService(UserRepository userRepository, AuthoritiesRepository authoritiesRepository, PasswordEncoder passwordEncoder, JavaMailSender javaMailSender, AttractionRepository attractionRepository, SavedAttractionRepository savedAttractionRepository) {
         this.userRepository = userRepository;
@@ -83,7 +86,7 @@ public class UserService {
                     .toString();
             user.setVerificationCode(verification_code);
 
-            String body = "<h2>Kedves " + user.getUsername() + "!</h2><br/><br/>A regisztrációd megerősítéséhez kattints <a href='http://localhost:" + PORT + "/register/validation/" + verification_code + "'>ERRE A LINKRE</a>";
+            String body = "<h2>Kedves " + user.getUsername() + "!</h2><br/><br/>A regisztrációd megerősítéséhez kattints <a href='" + URL + "register/validation/" + verification_code + "'>ERRE A LINKRE</a>";
             mimeMessage.setSubject("TraWell regisztráció");
             mimeMessage.setText(body, "UTF-8", "html");
             javaMailSender.send(mimeMessage);
@@ -196,5 +199,13 @@ public class UserService {
             user.getRoles().add(admin);
         }
         userRepository.save(user);
+    }
+
+    public boolean isSaved(long id) {
+        if(SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser")){
+            return true;
+        }
+        SavedAttraction sa = savedAttractionRepository.findFirstByUserIdAndAttraction(SecurityContextHolder.getContext().getAuthentication().getName(), id).orElse(null);
+        return sa == null;
     }
 }

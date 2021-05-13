@@ -19,10 +19,10 @@ public interface AttractionRepository extends JpaRepository<Attraction, Long> {
 
     Attraction findFirstByOrderByIdDesc();
 
-    @Query("SELECT a FROM Attraction a, City ci WHERE a.city.id = ci.id AND ci.country.id = ?1 order by a.id desc")
+    @Query("SELECT a FROM Attraction a WHERE a.city.country.id = ?1 order by a.id desc")
     List<Attraction> findBestsByCountry(String countryId, Pageable pageable);
 
-    @Query("SELECT a FROM Attraction a, City ci WHERE a.city.id = ci.id AND ci.country.id = ?1")
+    @Query("SELECT a FROM Attraction a WHERE a.city.country.id = ?1")
     List<Attraction> findAllByCountryId(String countryId);
 
     List<Attraction> findAllByCityOrderByIdDesc(City city, Pageable pageable);

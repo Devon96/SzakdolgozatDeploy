@@ -14,7 +14,7 @@ public class Type {
     long id;
 
 
-    @Size(min = 3, message = "A típusnévnek minimum 3 karakternek kell lennie.")
+    @Size(min = 2, message = "A típusnévnek minimum két karakternek kell lennie.")
     String name;
 
     @Transient

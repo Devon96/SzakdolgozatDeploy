@@ -17,4 +17,9 @@ public class SavedAttraction {
 
     @ManyToOne
     User user;
+
+    @Override
+    public String toString(){
+        return "useremail: " + this.user.getEmail() + " attractionId: " + this.attraction.getId();
+    }
 }

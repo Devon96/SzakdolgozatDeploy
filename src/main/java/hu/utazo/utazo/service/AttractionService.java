@@ -106,10 +106,7 @@ public class AttractionService {
     }
 
     public Attraction findById(long attractionId) throws Exception {
-        Attraction attraction = attractionRepository.findById(attractionId).orElse(null);
-        if(attraction == null){
-            throw new Exception("Nincs ilyen látnivaló");
-        }
+        Attraction attraction = attractionRepository.findById(attractionId).orElseThrow(() -> new Exception("Nincs ilyen látnivaló"));
         Set<Label> attractionLabels = new HashSet<>(attraction.getLabels());
 
         Map<Attraction, Double> attractionMap = new HashMap<>();
@@ -143,9 +140,6 @@ public class AttractionService {
             attraction.getSimilarAttractions().add(a);
             attractionMap.remove(a);
         }
-
-
-
 
         return attraction;
     }

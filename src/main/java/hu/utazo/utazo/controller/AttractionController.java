@@ -49,14 +49,7 @@ public class AttractionController {
         model.addAttribute("title", attraction.getName());
         model.addAttribute("attraction", attraction);
         model.addAttribute("rating", ratingService.findByAttractionAndUser(attractionId));
-
-        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser")){
-            model.addAttribute("attractionSaved", userService.find().getAttractions().stream().filter(i -> i.getAttraction().getId() == attractionId).toArray().length == 0);
-        }else{
-            model.addAttribute("attractionSaved", false);
-
-        }
-
+        model.addAttribute("attractionSaved", userService.isSaved(attraction.getId()));
 
         return "attraction";
     }

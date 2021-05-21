@@ -7,13 +7,12 @@ A Herokun futó változatba fájl írási korlátozások miatt nem lehet képet 
 A Google API-k csak a projekt-trawell.herokuapp.com és a localhost:8080-ról érkező kéréseket szolgálják ki.
 
 
-
 ##### Egy adminisztrátori jogosultsággal rendelkező felhasználó:
 
 ###### E-mail cím: alma@gmail.com
 
 ###### Jelszó: a
 
-Látnivaló adatok Budapesthez, Szegedhez valamint Párizshoz vannak feltöltve.
+Látnivaló adatok főként Szegedhez, Budapesthez, valamint Párizshoz vannak feltöltve.
 
-
+A program a Heroku MySQL szerveréhez kapcsolódik. A database.sql egy mentést tartalmaz róla.
